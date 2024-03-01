@@ -43,3 +43,9 @@ git clone https://github.com/7incho/42i
 npm install
 npm run dev
 ```
+
+Then, open your browser at:
+
+```
+http://localhost:4321/
+```
