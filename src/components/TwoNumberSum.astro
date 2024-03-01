@@ -4,14 +4,14 @@
 
 <div class="flex flex-1 flex-col">
   <h2 class="text-3xl font-bold">Two Number Sum</h2>
-  <form class="flex flex-col py-4 gap-2" id="custom-form" action="">
+  <form class="flex flex-col py-4 gap-2" id="custom-form-numbers" action="">
     <label class="block mb-2">
       Enter non-repetitive numbers
       <input
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         name="numbers"
         type="text"
-        placeholder="5, 3, 1, 2"
+        placeholder="2, 7, 11, 15"
       />
     </label>
     <label class="block mb-2">
@@ -20,7 +20,7 @@
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         name="targetSum"
         type="number"
-        placeholder="Enter target sum"
+        placeholder="9"
       />
     </label>
     <button
@@ -29,12 +29,15 @@
     >
       Calculate
     </button>
+    <p id="result-numbers"></p>
   </form>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("custom-form");
+    const form = document.getElementById("custom-form-numbers");
+    const resultParagraph = document.getElementById("result-numbers");
+
     form?.addEventListener("submit", function (event) {
       event.preventDefault();
       const inputNumbers = (
@@ -45,17 +48,17 @@
       const targetSum = parseInt(
         (document.querySelector('[name="targetSum"]') as HTMLInputElement).value
       );
-      const result = findPairWithSum(inputNumbers, targetSum);
-      if (result) {
-        console.log(
-          `The two numbers that sum up to ${targetSum} are: ${result[0]} and ${result[1]}`
-        );
-      } else {
-        console.log("Is not found");
+      const result = findTwoNumberSum(inputNumbers, targetSum);
+      if (resultParagraph) {
+        if (result) {
+          resultParagraph.textContent = `The two numbers that sum up to ${targetSum} are: ${result[0]} and ${result[1]}`;
+        } else {
+          resultParagraph.textContent = "No se encuentra";
+        }
       }
     });
 
-    function findPairWithSum(
+    function findTwoNumberSum(
       numbers: number[],
       targetSum: number
     ): [number, number] | null {

@@ -4,5 +4,58 @@
 
 <div class="flex flex-1 flex-col">
   <h2 class="text-3xl font-bold">Non-Constructible Change</h2>
-  <p>Solution</p>
+  <form class="flex flex-col py-4 gap-2" id="custom-form" action="">
+    <label class="block mb-2">
+      Enter the values of coins in your possession
+      <input
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        name="coins"
+        type="text"
+        placeholder="5, 7, 1, 1, 2, 3, 22"
+      />
+    </label>
+
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Calculate
+    </button>
+  </form>
+  <p id="result-values" class="text-lg font-thin"></p>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("custom-form");
+    const resultParagraph = document.getElementById("result-values");
+
+    if (!resultParagraph) {
+      console.error("Result paragraph not found.");
+      return;
+    }
+
+    form?.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const inputCoins = (
+        document.querySelector('[name="coins"]') as HTMLInputElement
+      ).value
+        .split(",")
+        .map((num) => parseInt(num.trim()));
+      const result = findMinUnobtainableChange(inputCoins);
+      resultParagraph.textContent = `The minimum amount of change that cannot be created is: ${result}`;
+    });
+
+    function findMinUnobtainableChange(coins: number[]): number {
+      coins.sort((a, b) => a - b);
+      let minChange = 1;
+      for (const coin of coins) {
+        if (coin > minChange) {
+          return minChange;
+        }
+        minChange += coin;
+      }
+      return minChange;
+    }
+  });
+</script>
