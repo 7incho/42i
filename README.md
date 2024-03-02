@@ -49,3 +49,9 @@ Then, open your browser at:
 ```
 http://localhost:4321/
 ```
+
+To run Cypress testing
+
+```bash
+npx run cypress
+```

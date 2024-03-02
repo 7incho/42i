@@ -1,7 +1,3 @@
----
-
----
-
 <div class="flex flex-1 flex-col">
   <h2 class="text-3xl font-bold">Two Number Sum</h2>
   <form class="flex flex-col py-4 gap-2" id="custom-form-numbers" action="">
@@ -19,7 +15,7 @@
       <input
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         name="targetSum"
-        type="number"
+        type="text"
         placeholder="9"
       />
     </label>
@@ -45,18 +41,42 @@
       ).value
         .split(",")
         .map((num) => parseInt(num.trim()));
-      const targetSum = parseInt(
-        (document.querySelector('[name="targetSum"]') as HTMLInputElement).value
-      );
-      const result = findTwoNumberSum(inputNumbers, targetSum);
+      const targetSum = (
+        document.querySelector('[name="targetSum"]') as HTMLInputElement
+      ).value;
+
+      if (!validateInput(inputNumbers, targetSum)) {
+        if (resultParagraph) {
+          // Verificar si resultParagraph no es nulo
+          resultParagraph.textContent =
+            "Please enter valid numbers and a target sum";
+        }
+        return;
+      }
+
+      const result = findTwoNumberSum(inputNumbers, parseInt(targetSum));
       if (resultParagraph) {
         if (result) {
           resultParagraph.textContent = `The two numbers that sum up to ${targetSum} are: ${result[0]} and ${result[1]}`;
         } else {
-          resultParagraph.textContent = "No se encuentra";
+          resultParagraph.textContent = "Is not found";
         }
       }
     });
+
+    function validateInput(numbers: number[], targetSum: string): boolean {
+      for (const num of numbers) {
+        if (isNaN(num)) {
+          return false;
+        }
+      }
+
+      if (isNaN(parseInt(targetSum))) {
+        return false;
+      }
+
+      return true;
+    }
 
     function findTwoNumberSum(
       numbers: number[],

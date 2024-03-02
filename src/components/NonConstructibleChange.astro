@@ -1,10 +1,6 @@
----
-
----
-
 <div class="flex flex-1 flex-col">
   <h2 class="text-3xl font-bold">Non-Constructible Change</h2>
-  <form class="flex flex-col py-4 gap-2" id="custom-form" action="">
+  <form class="flex flex-col py-4 gap-2" id="custom-form-values" action="">
     <label class="block mb-2">
       Enter the values of coins in your possession
       <input
@@ -27,7 +23,7 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("custom-form");
+    const form = document.getElementById("custom-form-values");
     const resultParagraph = document.getElementById("result-values");
 
     if (!resultParagraph) {
@@ -42,9 +38,26 @@
       ).value
         .split(",")
         .map((num) => parseInt(num.trim()));
+
+      // Validar la entrada antes de realizar cualquier cálculo
+      if (!validateInput(inputCoins)) {
+        resultParagraph.textContent =
+          "Please enter valid numbers separated by commas";
+        return;
+      }
+
       const result = findMinUnobtainableChange(inputCoins);
       resultParagraph.textContent = `The minimum amount of change that cannot be created is: ${result}`;
     });
+
+    function validateInput(coins: number[]): boolean {
+      for (const coin of coins) {
+        if (isNaN(coin)) {
+          return false;
+        }
+      }
+      return true;
+    }
 
     function findMinUnobtainableChange(coins: number[]): number {
       coins.sort((a, b) => a - b);
